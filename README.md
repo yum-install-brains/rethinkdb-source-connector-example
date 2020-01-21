@@ -56,6 +56,95 @@ python todo.py
 
 Then open a browser: <http://localhost:5000/>.
 
+# Connect
+check connect status
+```bash
+curl localhost:8083/ | jq '.'
+curl localhost:8083/connector-plugins | jq '.'
+```
+
+check active connectors
+```bash
+curl localhost:8083/connectors
+curl localhost:8083/connectors/rethinkdb-connector/status
+
+```
+
+start new connector
+```bash
+curl -X POST -H "Content-Type: application/json" --data "@create-connector.json" http://localhost:8083/connectors
+
+```
+
+update connector
+```bash
+curl -X PUT -H "Content-Type: application/json" --data "@create-connector.json" http://localhost:8083/connectors/rethinkdb-connector/config
+
+```
+
+start new task
+```bash
+curl localhost:8083/connectors/local-file-sink/tasks | jq
+[
+  {
+    "id": {
+      "connector": "local-file-sink",
+      "task": 0
+    },
+    "config": {
+      "task.class": "org.apache.kafka.connect.file.FileStreamSinkTask",
+      "topics": "connect-test",
+      "file": "test.sink.txt"
+    }
+  }
+]
+```
+
+delete connector
+```bash
+curl -X DELETE localhost:8083/connectors/rethinkdb-connector
+```
+
+# Kafka
+List topics
+```bash
+
+```
+
+Read from topic
+```bash
+kafka-console-consumer \
+--bootstrap-server localhost:9092 \
+--topic rethinkdb-todo-topic \
+--from-beginning
+```
+
+
+# Demo
+```bash
+docker-compose up --build
+```
+
+```bash
+docker exec -it connect bash
+curl -X POST -H "Content-Type: application/json" --data "@create-connector.json" http://localhost:8083/connectors
+```
+
+add some todos http://localhost:5000/
+
+check if data is written to rethinkdb http://localhost:8080/#tables/
+
+check if data is in kafka
+```bash
+docker exec -it rethinkdb-source-connector-example_kafka_1 bash
+
+kafka-topics --zookeeper zookeeper:2181 --list
+
+kafka-console-consumer \
+--bootstrap-server localhost:9092 \
+--topic rethinkdb-todo-topic \
+--from-beginning
+```
 
 # License #
 

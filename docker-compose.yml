@@ -42,7 +42,6 @@ services:
     depends_on:
       - zookeeper
   connect:
-    image: confluentinc/kafka-connect-datagen:latest # Dockerfile loads cp-kafka-connect:5.3.0
     build:
       context: connect/
       dockerfile: Dockerfile
