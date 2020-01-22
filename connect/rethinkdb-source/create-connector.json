@@ -6,7 +6,7 @@
     "connect.rethink.host":"rethinkdb",
     "connect.rethink.port":28015,
     "connect.rethink.db":"demo_db",
-    "connect.rethink.kcql":"INSERT INTO rethinkdb.connector.demo SELECT * FROM demo_table",
+    "connect.rethink.kcql":"INSERT INTO rethinkdb.connector.demo SELECT * FROM demo_table INITIALIZE BATCH 2",
     "connect.progress.enable":true
   }
 }

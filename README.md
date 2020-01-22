@@ -26,10 +26,15 @@ docker exec -it kafka \
 kafka-console-consumer \
 --bootstrap-server localhost:9092 \
 --topic rethinkdb.connector.demo \
---from-beginning 
+--from-beginning > result.json
 ```
 
-7. Tear down
+7. Show result 
+```bash
+cat result.json | jq  '.payload.new_val'
+```
+
+8. Tear down
 ```bash
 docker-compose down -v
 ```

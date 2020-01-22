@@ -2,41 +2,42 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Kafka Connect demo app</title>
-  <link rel="stylesheet" href="{{url_for('static', filename='assets/demo.css')}}"/>
+    <meta charset="utf-8">
+    <title>Kafka Connect demo app</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/demo.css') }}"/>
 </head>
 
 <body>
-  <div id="todoapp">
+<div id="todoapp">
     <header>
-      <h1>Kafka Connect demo</h1>
-      <input id="new-todo" type="text" placeholder="Avito Kafka meetup 23.01.2020">
+        <h1>Kafka Connect demo</h1>
+        <img src="/static/drake.png" alt="drake kafka" width="500" height="600">
+        <input id="new-todo" type="text" placeholder="Avito Kafka meetup 23.01.2020">
     </header>
 
-  <script src="{{url_for('static', filename='assets/vendor/json2.js')}}"></script>
-  <script src="{{url_for('static', filename='assets/vendor/jquery.js')}}"></script>
-  <script src="{{url_for('static', filename='assets/vendor/underscore.js')}}"></script>
-  <script src="{{url_for('static', filename='assets/vendor/backbone-min.js')}}"></script>
-  <script src="{{url_for('static', filename='todos.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/json2.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/underscore.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/backbone-min.js') }}"></script>
+    <script src="{{ url_for('static', filename='todos.js') }}"></script>
 
-  <!-- Templates -->
+    <!-- Templates -->
 
-  <script type="text/template" id="item-template">
-    <div class="view">
-      <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-      <label><%- title %></label>
-      <a class="destroy"></a>
-    </div>
-    <input class="edit" type="text" value="<%- title %>" />
-  </script>
+    <script type="text/template" id="item-template">
+        <div class="view">
+            <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+            <label><%- title %></label>
+            <a class="destroy"></a>
+        </div>
+        <input class="edit" type="text" value="<%- title %>"/>
+    </script>
 
-  <script type="text/template" id="stats-template">
-    <% if (done) { %>
-      <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
-    <% } %>
-    <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
-  </script>
+    <script type="text/template" id="stats-template">
+        <% if (done) { %>
+        <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
+        <% } %>
+        <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
+    </script>
 
-  </body>
+</body>
 </html>
