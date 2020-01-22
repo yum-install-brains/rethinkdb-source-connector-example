@@ -2,12 +2,14 @@ version: '3.3'
 
 services:
   rethinkdb:
+    container_name: rethinkdb
     image: rethinkdb:2.4
     restart: always
     ports:
       - "8080:8080"
       - "28015:28015"
   app:
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile
@@ -21,6 +23,7 @@ services:
     depends_on:
       - rethinkdb
   zookeeper:
+    container_name: zookeeper
     image: confluentinc/cp-zookeeper:5.3.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -28,6 +31,7 @@ services:
     depends_on:
       - rethinkdb
   kafka:
+    container_name: kafka
     image: confluentinc/cp-kafka:5.3.0
     ports:
       - "29092:29092"
@@ -72,10 +76,5 @@ services:
       CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR,com.mongodb.kafka=DEBUG"
       CONNECT_PLUGIN_PATH: /usr/share/confluent-hub-components
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      # Assumes image is based on confluentinc/kafka-connect-datagen:latest which is pulling 5.3.0 Connect image
-      CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-5.3.0.jar
-      CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
-      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
-    command: "bash -c 'if [ ! -d /usr/share/confluent-hub-components/confluentinc-kafka-connect-datagen ]; then echo \"WARNING: Did not find directory for kafka-connect-datagen (did you remember to run: docker-compose up -d --build ?)\"; fi ; /etc/confluent/docker/run'"
     volumes:
       - ./connect/rethinkdb-source:/usr/share/confluent-hub-components/kafka-connect-rethinkdb
